@@ -2,6 +2,7 @@ package apcoders.in.carpark;
 import apcoders.in.carpark.models.AuthorityModel;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -144,13 +145,26 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else if (itemId == R.id.navigation_logout) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    SharedPreferences sp = getSharedPreferences("Emailprefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean("isLoggedIn", false);
+                    editor.clear();
                     editor.apply();
 
-                    Toast.makeText(MainActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this,Login.class));
-                    finish(); // Close HomeActivity
+                    // Log message to confirm button click
+                    Log.d("LogoutDebug", "Logout button clicked");
+
+                    // Firebase sign-out (if using Firebase Authentication)
+                    FirebaseAuth.getInstance().signOut();
+
+                    // Toast message for user feedback
+                    Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                    // Restart the login activity and clear the back stack
+                    Intent intent = new Intent(MainActivity.this, Login.class);
+                    startActivity(intent);
+                    finish();
+                    finishAffinity(); // Ensures all activities are closed
 
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);

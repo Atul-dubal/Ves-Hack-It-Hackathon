@@ -95,7 +95,7 @@ public class Register extends AppCompatActivity {
                         if (isValidPassword(password)) {
                             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("RegisterActivity", "Firebase authentication successful");
 
