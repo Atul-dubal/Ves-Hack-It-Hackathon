@@ -241,6 +241,8 @@ public class Register extends AppCompatActivity {
                 if (checkedId == R.id.radioBtnNormalBtn) {
                     // Handle "Normal User" selection
 //                    edAuthorityLevel.setVisibility(View.GONE);
+
+                    edAuthorityLevel.setVisibility(View.GONE);
                     UserType = "Normal User";
 //                    Toasty.success(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
@@ -252,6 +254,7 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

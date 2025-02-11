@@ -2,6 +2,7 @@ package apcoders.in.carpark;
 import apcoders.in.carpark.models.AuthorityModel;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
 
         if (user == null) {
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
 
@@ -98,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
-                        startActivity(new Intent(MainActivity.this, Login.class));
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
                     }
                 }
             });
         } else {
             firebaseAuth.signOut();
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
         buttondrawer.setOnClickListener(new View.OnClickListener() {
@@ -124,14 +125,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                if (itemId == R.id.navigation_profile) {
-                    Toast.makeText(MainActivity.this, "Manage Profile", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, Profile_Activity.class));
-                }
 
-                else if (itemId == R.id.navigation_about) {
+
+                 if (itemId == R.id.navigation_about) {
                     Toast.makeText(MainActivity.this, "About Clicked", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, About.class));
+                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
                 } else if (itemId == R.id.navigation_share) {
                     Toast.makeText(MainActivity.this, "Share Clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Intent.ACTION_SEND);
@@ -141,16 +139,27 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_TEXT,Body);
                     intent.putExtra(Intent.EXTRA_TEXT,Sub);
                     startActivity(Intent.createChooser(intent,"Share using"));
-
-
                 } else if (itemId == R.id.navigation_logout) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    SharedPreferences sp = getSharedPreferences("Emailprefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean("isLoggedIn", false);
+                    editor.clear();
                     editor.apply();
 
-                    Toast.makeText(MainActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this,Login.class));
-                    finish(); // Close HomeActivity
+                    // Log message to confirm button click
+                    Log.d("LogoutDebug", "Logout button clicked");
+
+                    // Firebase sign-out (if using Firebase Authentication)
+                    FirebaseAuth.getInstance().signOut();
+
+                    // Toast message for user feedback
+                    Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                    // Restart the login activity and clear the back stack
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    finishAffinity(); // Ensures all activities are closed
 
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);

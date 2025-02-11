@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/Home"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home"
+    />
+
+    <item android:id="@+id/Wallet"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:title="Wallet"
+        android:icon="@drawable/baseline_account_balance_wallet_24"
+        />
+
+    <item android:id="@+id/Map"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:title="Map"
+        android:icon="@drawable/ic_map"
+        />
+
+    <item android:id="@+id/Profile"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:title="Profile"
+        android:icon="@drawable/person"
+        />
+
+</menu>
